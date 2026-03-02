@@ -16,10 +16,6 @@ This repository contains every lab I built while studying with Alan Rodrigues' U
 - Identity & Governance (Entra ID, RBAC, Azure Policy, ARM Templates)
 - Monitoring & Troubleshooting (Azure Monitor, Advisor)
 
-## Lab Structure
-- **[Week 1 – Compute Resources](./Labs/01-Compute)**
-- **[Week 2 – Containers & Web Apps](./Labs/02-Containers)**
-- ... (you'll add these as you go)
 
 Each folder contains:
 - Screenshots of the deployed resources
