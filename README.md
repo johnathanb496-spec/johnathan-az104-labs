@@ -25,6 +25,6 @@ Each folder contains:
 ## How to Use This Repo
 Feel free to clone and explore! All labs were built in a real Azure subscription.
 
-Connect with me on [LinkedIn](https://linkedin.com/in/yourprofile) or email me if you'd like to discuss any of these projects.
+Connect with me on [LinkedIn](https://www.linkedin.com/in/johnathan-bennett-437b21196/) or email me if you'd like to discuss any of these projects.
 
 ⭐ Star this repo if it helped you!
