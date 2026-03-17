@@ -1,0 +1,76 @@
+📌 Overview
+
+This lab demonstrates deploying a containerized web application using:
+
+Linux Virtual Machine
+
+Docker
+
+Azure Container Registry (ACR)
+
+Azure Container Instances (ACI)
+
+🧱 Architecture
+Local VM (Docker)
+     ↓
+Container Image
+     ↓
+Azure Container Registry (ACR)
+     ↓
+Azure Container Instances (ACI)
+     ↓
+Public Web App
+⚙️ Technologies Used
+
+Microsoft Azure
+
+Docker
+
+Azure Container Registry
+
+Azure Container Instances
+
+Linux (Ubuntu)
+
+🧪 Steps Performed
+1. Created Linux VM
+
+Ubuntu Server
+
+Opened ports 22 and 80
+
+2. Installed Docker
+sudo apt update
+sudo apt install docker.io -y
+3. Created Web App
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello from Azure Container Lab!"
+
+app.run(host='0.0.0.0', port=80)
+4. Created Dockerfile
+FROM python:3.9
+WORKDIR /app
+COPY . .
+RUN pip install flask
+CMD ["python", "app.py"]
+5. Built & Ran Container
+docker build -t mywebapp .
+docker run -d -p 80:80 mywebapp
+6. Pushed Image to ACR
+docker tag mywebapp <registry>.azurecr.io/mywebapp
+docker push <registry>.azurecr.io/mywebapp
+7. Deployed with ACI
+
+Used Azure Portal
+
+Exposed port 80
+
+Assigned DNS name
+
+🌐 Result
+
+Application successfully deployed and accessible via public URL.
