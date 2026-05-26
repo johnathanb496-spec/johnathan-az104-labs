@@ -1,1 +1,18 @@
-
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location":{"value": "eastus"},
+        "storageAccount" :{"value": "stcloudhubdeveus123"},
+        "vnet": {
+                "value": {
+                    "name": "vnet-dev-eus",
+                    "addressPrefixes": ["10.0.0.0/16"],
+                    "subnets": [ 
+                        {"name": "snet-dev-eus-web-01", "prefix": "10.0.0.0/24"},
+                        {"name": "snet-dev-eus-db-01", "prefix": "10.0.1.0/24"}
+                    ]
+              }
+        }
+    }
+}
