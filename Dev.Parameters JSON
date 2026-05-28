@@ -2,6 +2,22 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "winWebAdminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": INSERT KEYVAULT ID HERE
+       },
+       "secretName": "INSERT SECRET NAME HERE"
+      }
+    },
+    "winWebConfig": {
+      "value": {
+        "vmSize": "Standard_D2s_v3",
+        "adminUsername": "azureadmin",
+        "baseName": "dev-web",
+        "count":2
+      }
+    },
     "location":{"value": "eastus"},
     "storageAccountName" :{"value": "stcloudhubdeveus123"}, 
     "vnet":{
