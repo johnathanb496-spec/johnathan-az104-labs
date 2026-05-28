@@ -2,6 +2,9 @@ param location string
 param vnet object
 param storageAccountName string
 param nsg object
+param winWebConfig object
+@secure()
+param winWebAdminPassword string
 
 var nsgAttachments = [
 {
@@ -43,4 +46,23 @@ module sharednsg 'modules/security/nsg.bicep' = {
       rules:nsg.rules
       attachments:nsgAttachments
    }
+   dependsOn:[devnet]
 }
+
+module winWeb 'modules/compute/windowsVm.bicep' = {
+   name: 'win-web-dev'
+   params: {
+      location:location
+      baseName:winWebConfig.baseName
+      vmSize:winWebConfig.vmSize
+      count:winWebConfig.count
+      adminUserName:winWebConfig.adminUsername
+      subnetId: devnet.outputs.subnetIds[0].id
+      adminPassword:winWebAdminPassword
+   }
+
+   dependsOn:[sharednsg]
+}
+
+
+
