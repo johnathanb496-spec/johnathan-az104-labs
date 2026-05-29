@@ -93,8 +93,8 @@ resource cse 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = [
   parent: vms[i]                       
   location:  location
   properties: {
-    publisher: 'Microsoft.Azure.Extensions'
-    type: 'CustomScript'
+    publisher: 'Microsoft.Computer'
+    type: 'CustomScriptExtension'
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
   
