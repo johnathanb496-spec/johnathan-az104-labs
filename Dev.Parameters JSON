@@ -2,12 +2,18 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "bastion": {
+      "value": "pip-bas-dev-eus-01",
+      "name": "bas-dev-eus-01"
+    }
+  },
+
     "winWebAdminPassword": {
       "reference": {
         "keyVault": {
-          "id": INSERT KEYVAULT ID HERE
+          "id": "/subscriptions/59bf4093-7398-4322-8616-dd3c00c5dff7/resourceGroups/app-grp/providers/Microsoft.KeyVault/vaults/cloudvault4321"
        },
-       "secretName": "INSERT SECRET NAME HERE"
+       "secretName": "win-web-admin-password"
       }
     },
     "winWebConfig": {
@@ -26,7 +32,8 @@
             "addressPrefixes":["10.0.0.0/16"],
             "subnets":[
                 {"name":"snet-dev-eus-web-01","prefix": "10.0.0.0/24"},
-                {"name":"snet-dev-eus-db-01","prefix": "10.0.1.0/24"}
+                {"name":"snet-dev-eus-db-01","prefix": "10.0.1.0/24"},
+                {"name":"AzureBasstionSubnet","prefix": "10.0.2.0/24"}
             ]
         }
     },
@@ -66,4 +73,3 @@
       }
     }
   }
-}
