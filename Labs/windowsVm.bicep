@@ -93,9 +93,9 @@ resource cse 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = [
   parent: vms[i]                       
   location:  location
   properties: {
-    publisher: 'Microsoft.Computer'
+    publisher: 'Microsoft.Compute'
     type: 'CustomScriptExtension'
-    typeHandlerVersion: '2.1'
+    typeHandlerVersion: '1.10'
     autoUpgradeMinorVersion: true
   
     settings: {
