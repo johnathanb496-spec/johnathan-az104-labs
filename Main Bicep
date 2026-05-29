@@ -61,6 +61,7 @@ module winWeb 'modules/compute/windowsVm.bicep' = {
       adminUserName:winWebConfig.adminUsername
       subnetId: devnet.outputs.subnetIds[0].id
       adminPassword:winWebAdminPassword
+      scriptUri:winWebConfig.scriptUri
    }
 
    dependsOn:[sharednsg]
@@ -76,12 +77,3 @@ module basPip 'modules/network/publicIp.bicep' = {
    }
 }
 
-module bastionhost 'modules/security/bastion.bicep' = { 
-   name: 'bastion'
-   params: {
-      name:bastion.name
-      location:location
-      subnetId:devnet.outputs.subnetIds[2].id
-      publicIPId:basPip.outputs.id
-   }
-}
