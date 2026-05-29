@@ -100,7 +100,7 @@ resource cse 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = [
   
     settings: {
       fileUris: [
-        'https://stcloudhubdeveus123.blob.core.windows.net/scripts/setup-iis.ps1?sp=r&st=2026-05-29T01:44:03Z&se=2026-05-29T09:59:03Z&spr=https&sv=2026-02-06&sr=b&sig=RPUmLVfcsl2aRgteRf01zBRoyIPO6CvxYakuSioaqgk%3D'
+        'ENTER SAS LINK HERE'
       ]
     }
   
