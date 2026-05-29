@@ -1,3 +1,10 @@
+@description('URI to the scritp file')
+@secure()
+param scriptUri  string
+
+@description('command to execute on the vm after file is downloaded')
+param scriptCommand string = 'powershell -ExecutionPolicy Bypass -File.\\setup-iis.ps1'
+
 @description('Azure Region')
 param location string
 
@@ -79,3 +86,29 @@ resource vms 'Microsoft.Compute/virtualMachines@2024-07-01' = [for (vmName, i) i
     }
   }
 }]
+
+resource cse 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = [
+  for i  in  range (0, length(vmNames)): {
+  name: 'cse-init'            
+  parent: vms[i]                       
+  location:  location
+  properties: {
+    publisher: 'Microsoft.Azure.Extensions'
+    type: 'CustomScript'
+    typeHandlerVersion: '2.1'
+    autoUpgradeMinorVersion: true
+  
+    settings: {
+      fileUris: [
+        'https://stcloudhubdeveus123.blob.core.windows.net/scripts/setup-iis.ps1?sp=r&st=2026-05-29T01:44:03Z&se=2026-05-29T09:59:03Z&spr=https&sv=2026-02-06&sr=b&sig=RPUmLVfcsl2aRgteRf01zBRoyIPO6CvxYakuSioaqgk%3D'
+      ]
+    }
+  
+    protectedSettings: {
+      commandToExecute: scriptCommand
+    }
+  }
+}
+
+]
+
