@@ -14,6 +14,7 @@ param linuxWebAdminPassword string
 param testvnet object   
 
 
+
 var nsgAttachments = [
 {
       vnetName:vnet.name
@@ -124,4 +125,12 @@ module linuxWeb 'modules/compute/linuxVm.bicep' = {
    }
 }
 
-
+module vnetPeering 'modules/network/vnetPeering.bicep' = {
+   name: 'vnet-peering-dev-test'
+   params: {
+      localVnetName: vnet.name
+      remoteVnetName: testvnet.name
+      localVnetId: devnet.outputs.vnetId
+      remoteVnetId: testnet.outputs.vnetId
+   }
+}
