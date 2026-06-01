@@ -8,6 +8,11 @@ param winWebAdminPassword string
 param bastion object 
 param lbName string 
 
+param linuxWebConfig object
+@secure()
+param linuxWebAdminPassword string  
+param testvnet object   
+
 
 var nsgAttachments = [
 {
@@ -19,6 +24,11 @@ var nsgAttachments = [
       vnetName:vnet.name
       subnetName:vnet.subnets[1].name
       addressPrefix:vnet.subnets[1].prefix
+}
+{
+      vnetName:testvnet.name
+      subnetName:testvnet.subnets[0].name
+      addressPrefix:testvnet.subnets[0].prefix
 }
 ]
 
@@ -91,6 +101,27 @@ module basPip 'modules/network/publicIp.bicep' = {
    }
 }
 
+module testnet 'modules/network/vnet.bicep' = { 
+   name: 'test-network'
+   params: { 
+    name:testvnet.name
+    location: location
+    addressPrefixes:testvnet.addressPrefixes
+    subnets:testvnet.subnets
+   }  
+}
 
+module linuxWeb 'modules/compute/linuxVm.bicep' = {
+   name: 'linux-web-dev'
+   params: {
+      location:location
+      baseName:linuxWebConfig.baseName
+      vmSize:linuxWebConfig.vmSize
+      count:linuxWebConfig.count
+      adminUserName:linuxWebConfig.adminUsername
+      subnetId: testnet.outputs.subnetIds[0].id
+      adminPassword:linuxWebAdminPassword
+   }
+}
 
 
