@@ -1,9 +1,11 @@
+param lbBackenPoolID string
+
 @description('URI to the scritp file')
 @secure()
 param scriptUri  string
 
 @description('command to execute on the vm after file is downloaded')
-param scriptCommand string = 'powershell -ExecutionPolicy Bypass -File.\\setup-iis.ps1'
+param scriptCommand string = 'powershell -ExecutionPolicy Bypass -File setup-iis.ps1'
 
 @description('Azure Region')
 param location string
@@ -39,9 +41,10 @@ resource nics 'Microsoft.Network/networkInterfaces@2025-05-01' = [for (nicName, 
         name: 'ipconfig-01'
         properties: {
           privateIPAllocationMethod: 'Dynamic'
-          subnet: {
-            id: subnetId
-          }
+          subnet: {id: subnetId }
+          loadBalancerBackendAddressPools:[
+            {id: lbBackenPoolID}
+          ]
         }
       }
     ]
@@ -100,7 +103,7 @@ resource cse 'Microsoft.Compute/virtualMachines/extensions@2021-04-01' = [
   
     settings: {
       fileUris: [
-        'ENTER SAS LINK HERE'
+        'https://stcloudhubdeveus123.blob.core.windows.net/scripts/setup-iis.ps1?sp=r&st=2026-05-29T01:44:03Z&se=2026-05-29T09:59:03Z&spr=https&sv=2026-02-06&sr=b&sig=RPUmLVfcsl2aRgteRf01zBRoyIPO6CvxYakuSioaqgk%3D'
       ]
     }
   
