@@ -2,74 +2,104 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "linuxWebConfig": {
+      "value": {
+        "scriptUri": "https://stcloudhubdeveus123.blob.core.windows.net/scripts/setup-nodejs.sh?sp=r&st=2026-05-29T01:44:03Z&se=2026-05-29T09:59:03Z&spr=https&sv=2026-02-06&sr=b&sig=RPUmLVfcsl2aRgteRf01zBRoyIPO6CvxYakuSioaqgk%3D",
+        "vmSize": "Standard_D2s_v3",
+        "adminUsername": "linuxadmin",
+        "baseName": "dev-nodejs",
+        "count": 1
+      }
+    },
+    "lbName": { "value": "lb-dev-eus-01" },
     "bastion": {
-      "value": "pip-bas-dev-eus-01",
-      "name": "bas-dev-eus-01"
-    }
-  },
-
+      "value": {
+        "pipName": "pip-bas-dev-eus-01",
+        "name": "bas-dev-eus-01"
+      }
+    },
     "winWebAdminPassword": {
       "reference": {
         "keyVault": {
           "id": "/subscriptions/59bf4093-7398-4322-8616-dd3c00c5dff7/resourceGroups/app-grp/providers/Microsoft.KeyVault/vaults/cloudvault4321"
-       },
-       "secretName": "win-web-admin-password"
+        },
+        "secretName": "win-web-admin-password"
+      }
+    },
+    "linuxWebAdminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/59bf4093-7398-4322-8616-dd3c00c5dff7/resourceGroups/app-grp/providers/Microsoft.KeyVault/vaults/cloudvault4321"
+        },
+        "secretName": "linux-web-admin-password"
       }
     },
     "winWebConfig": {
       "value": {
+        "scriptUri": "https://stcloudhubdeveus123.blob.core.windows.net/scripts/setup-iis.ps1?sp=r&st=2026-05-29T01:44:03Z&se=2026-05-29T09:59:03Z&spr=https&sv=2026-02-06&sr=b&sig=RPUmLVfcsl2aRgteRf01zBRoyIPO6CvxYakuSioaqgk%3D",
         "vmSize": "Standard_D2s_v3",
         "adminUsername": "azureadmin",
         "baseName": "dev-web",
-        "count":2
+        "count": 2
       }
     },
-    "location":{"value": "eastus"},
-    "storageAccountName" :{"value": "stcloudhubdeveus123"}, 
-    "vnet":{
-        "value": {
-            "name":"vnet-dev-eus",
-            "addressPrefixes":["10.0.0.0/16"],
-            "subnets":[
-                {"name":"snet-dev-eus-web-01","prefix": "10.0.0.0/24"},
-                {"name":"snet-dev-eus-db-01","prefix": "10.0.1.0/24"},
-                {"name":"AzureBasstionSubnet","prefix": "10.0.2.0/24"}
-            ]
-        }
+    "location": { "value": "eastus" },
+    "storageAccountName": { "value": "stcloudhubdeveus123" },
+    "vnet": {
+      "value": {
+        "name": "vnet-dev-eus",
+        "addressPrefixes": ["10.0.0.0/16"],
+        "subnets": [
+          { "name": "snet-dev-eus-web-01", "prefix": "10.0.0.0/24" },
+          { "name": "snet-dev-eus-db-01", "prefix": "10.0.1.0/24" },
+          { "name": "AzureBastionSubnet", "prefix": "10.0.2.0/24" }
+        ]
+      }
     },
-    "nsg":{
-      "value": { 
+    "testvnet": {
+      "value": {
+        "name": "vnet-test-eus",
+        "addressPrefixes": ["10.1.0.0/16"],
+        "subnets": [
+          { "name": "snet-test-app", "prefix": "10.1.0.0/24" }
+        ]
+      }
+    },
+
+    "nsg": {
+      "value": {
         "name": "nsg-az104-shared-eus-01",
         "rules": [
           {
-        "name": "in-allow-rdp-admin",
-        "properties": {
-          "description": "Allow RDP for admin access.",
-          "protocol": "Tcp",
-          "sourcePortRange": "*",
-          "destinationPortRange": "3389",
-          "sourceAddressPrefix": "*",
-          "destinationAddressPrefix": "*",
-          "access": "Allow",
-          "priority": 400,
-          "direction": "Inbound"
-        }
-      },
-      {
-        "name": "in-allow-http-from-internet-to-10-0-0-4",
-        "properties": {
-          "description": "Allow HTTP from the Internet service tag to 10.0.0.4.",
-          "protocol": "Tcp",
-          "sourcePortRange": "*",
-          "destinationPortRange": "80",
-          "sourceAddressPrefix": "Internet",
-          "destinationAddressPrefix": "10.0.0.4",
-          "access": "Allow",
-          "priority": 410,
-          "direction": "Inbound"
-        }
-      }
+            "name": "in-allow-rdp-admin",
+            "properties": {
+              "description": "Allow RDP for admin access.",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 400,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "in-allow-http-from-internet-to-10-0-0-4",
+            "properties": {
+              "description": "Allow HTTP from the Internet service tag to 10.0.0.4.",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "10.0.0.4",
+              "access": "Allow",
+              "priority": 410,
+              "direction": "Inbound"
+            }
+          }
         ]
       }
     }
   }
+}
